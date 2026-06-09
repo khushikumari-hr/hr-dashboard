@@ -3,109 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Omspace HR Mission Control - 2026</title>
+    <title>Omspace HR Mission Logs - 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body { 
             font-family: 'Inter', sans-serif; 
-            background: linear-gradient(135deg, #0b0f19 0%, #1a1025 50%, #0d1b2a 100%);
-            background-attachment: fixed;
+            background: #050b14;
+            background-image: radial-gradient(circle at 50% 0%, #1a2a42 0%, transparent 70%);
             color: #e2e8f0;
         }
         .glass-card { 
-            background: rgba(255, 255, 255, 0.05); 
-            backdrop-filter: blur(10px); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
+            background: rgba(16, 24, 39, 0.6); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
             border-radius: 1rem; 
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); 
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); 
             padding: 1.5rem; 
         }
-        .neon-border-blue { border-bottom: 2px solid #38bdf8; box-shadow: 0 10px 15px -3px rgba(56, 189, 248, 0.2); }
-        .neon-border-purple { border-bottom: 2px solid #c084fc; box-shadow: 0 10px 15px -3px rgba(192, 132, 252, 0.2); }
-        .neon-border-pink { border-bottom: 2px solid #f472b6; box-shadow: 0 10px 15px -3px rgba(244, 114, 182, 0.2); }
-        .neon-text { text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+        .timeline-line {
+            position: absolute;
+            left: 24px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #38bdf8, #c084fc, #f472b6, #2dd4bf);
+            z-index: 0;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: 17px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            z-index: 10;
+            box-shadow: 0 0 10px currentColor;
+        }
     </style>
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen pb-12">
 
-    <header class="border-b border-white/10 bg-black/30 backdrop-blur-md py-6 sticky top-0 z-50">
+    <header class="border-b border-white/10 bg-black/40 backdrop-blur-md py-6 sticky top-0 z-50 shadow-lg">
         <div class="container mx-auto px-6 flex justify-between items-center">
             <div class="flex items-center gap-4">
-                <div class="text-4xl">🚀</div>
+                <div class="text-4xl">🛰️</div>
                 <div>
-                    <h1 class="text-3xl font-bold text-white neon-text">OMSPACE HR MISSION CONTROL</h1>
-                    <p class="text-blue-300 text-sm tracking-widest uppercase mt-1">Strategic Overview: Jan - May 2026</p>
+                    <h1 class="text-2xl md:text-3xl font-bold text-white tracking-wide">OMSPACE HR MISSION LOGS</h1>
+                    <p class="text-blue-400 text-xs md:text-sm tracking-widest uppercase mt-1">Chronological Performance: Jan - May 2026</p>
                 </div>
             </div>
-            <div class="text-right hidden md:block">
-                <p class="font-bold text-lg text-white">Cmdr. Khushi Kumari</p>
-                <p class="text-sm text-purple-300">Department: Management [cite: 918]</p>
+            <div class="text-right hidden md:block border-l border-white/10 pl-6">
+                <p class="font-bold text-md text-white">Khushi Kumari</p>
+                <p class="text-xs text-purple-300 tracking-wider">HR Executive | Management</p>
             </div>
         </div>
     </header>
 
-    <main class="container mx-auto px-6 py-8">
-        
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div class="glass-card neon-border-blue text-center">
-                <h3 class="text-blue-300 text-xs font-bold uppercase tracking-wider mb-2">Peak Workforce Strength</h3>
-                <p class="text-4xl font-extrabold text-white">55</p>
-                <p class="text-xs text-gray-400 mt-2">Achieved in March (0% Attrition) [cite: 87, 91]</p>
-            </div>
-            <div class="glass-card neon-border-purple text-center">
-                <h3 class="text-purple-300 text-xs font-bold uppercase tracking-wider mb-2">Interviews Driven (Jan-Feb)</h3>
-                <p class="text-4xl font-extrabold text-white">154</p>
-                <p class="text-xs text-gray-400 mt-2">69 in Jan  | 85 in Feb </p>
-            </div>
-            <div class="glass-card neon-border-pink text-center">
-                <h3 class="text-pink-300 text-xs font-bold uppercase tracking-wider mb-2">Quality of Hire (Feb)</h3>
-                <p class="text-4xl font-extrabold text-white">3.5%</p>
-                <p class="text-xs text-gray-400 mt-2">Strict Selection Rate (3 Hires / 85 Int.) </p>
-            </div>
-            <div class="glass-card neon-border-blue text-center">
-                <h3 class="text-cyan-300 text-xs font-bold uppercase tracking-wider mb-2">May Tech Transition</h3>
-                <p class="text-2xl font-extrabold text-white mt-2">HRMS & ISO</p>
-                <p class="text-xs text-gray-400 mt-2">Platform & Agency Evaluations [cite: 966, 968]</p>
+    <main class="container mx-auto px-6 py-10 relative">
+        <div class="timeline-line hidden md:block"></div>
+
+        <div class="relative pl-0 md:pl-16 mb-12">
+            <div class="timeline-dot bg-blue-500 text-blue-500 hidden md:block mt-6"></div>
+            <div class="glass-card border-t-4 border-blue-500">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 border-b border-white/10 pb-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white">Phase 1: Foundation & Engagement</h2>
+                        <p class="text-blue-400 text-sm tracking-widest uppercase mt-1">January 2026</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 class="text-gray-400 text-xs uppercase tracking-wider mb-1">Interviews Conducted</h4>
+                        <p class="text-3xl font-bold text-white">69</p>
+                    </div>
+                    <div class="col-span-2">
+                        <h4 class="text-gray-400 text-xs uppercase tracking-wider mb-2">Key Milestones</h4>
+                        <ul class="list-disc pl-5 space-y-1 text-sm text-gray-300">
+                            <li>Successfully managed the <strong>Bopal Office Inauguration</strong>.</li>
+                            <li>Coordinated the <strong>Republic Day</strong> & Saraswati Puja celebrations.</li>
+                            <li>Allocated 45% effort to recruitment and 25% to HR operations.</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div class="glass-card">
-                <h2 class="text-xl font-bold text-white mb-4 border-b border-white/10 pb-2">HR Resource Allocation (Jan '26)</h2>
-                <div class="h-64 flex justify-center">
-                    <canvas id="allocationChart"></canvas>
+        <div class="relative pl-0 md:pl-16 mb-12">
+            <div class="timeline-dot bg-purple-500 text-purple-500 hidden md:block mt-6"></div>
+            <div class="glass-card border-t-4 border-purple-500">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 border-b border-white/10 pb-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white">Phase 2: High-Velocity Sourcing</h2>
+                        <p class="text-purple-400 text-sm tracking-widest uppercase mt-1">February 2026</p>
+                    </div>
                 </div>
-                <p class="text-center text-xs text-gray-400 mt-4">Demonstrates balanced focus across core HR functions.</p>
-            </div>
-            
-            <div class="glass-card">
-                <h2 class="text-xl font-bold text-white mb-4 border-b border-white/10 pb-2">Recruitment Velocity</h2>
-                <div class="h-64">
-                    <canvas id="velocityChart"></canvas>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div>
+                        <h4 class="text-gray-400 text-xs uppercase tracking-wider mb-1">Interviews</h4>
+                        <p class="text-3xl font-bold text-white">85</p>
+                    </div>
+                    <div>
+                        <h4 class="text-gray-400 text-xs uppercase tracking-wider mb-1">Selection Rate</h4>
+                        <p class="text-3xl font-bold text-purple-400">3.5%</p>
+                        <p class="text-xs text-gray-500">3 Selected / 82 Rejected</p>
+                    </div>
+                    <div class="col-span-2">
+                        <h4 class="text-gray-400 text-xs uppercase tracking-wider mb-2">Key Milestones</h4>
+                        <ul class="list-disc pl-5 space-y-1 text-sm text-gray-300">
+                            <li>Demonstrated strict quality control in technical hiring.</li>
+                            <li>Executed major campus drives (LPU, IIT Guwahati, IIT Ropar).</li>
+                            <li>Closed 3 critical positions for March joining.</li>
+                        </ul>
+                    </div>
                 </div>
-                <p class="text-center text-xs text-gray-400 mt-4">Interview volume leading to strict screening and pipeline building[cite: 630, 847].</p>
             </div>
         </div>
 
-        <div class="glass-card mb-8">
-            <h2 class="text-xl font-bold text-white mb-6 border-b border-white/10 pb-2">Mission Milestones & Cultural Impact</h2>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div class="border-l-2 border-blue-500 pl-4">
-                    <h4 class="text-blue-400 font-bold">January 2026</h4>
-                    <p class="text-sm text-gray-300 mt-1">Successfully managed Bopal Office Inauguration & Republic Day events.</p>
+        <div class="relative pl-0 md:pl-16 mb-12">
+            <div class="timeline-dot bg-pink-500 text-pink-500 hidden md:block mt-6"></div>
+            <div class="glass-card border-t-4 border-pink-500">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 border-b border-white/10 pb-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white">Phase 3: Orbital Achievement & Scaling</h2>
+                        <p class="text-pink-400 text-sm tracking-widest uppercase mt-1">March 2026</p>
+                    </div>
                 </div>
-                <div class="border-l-2 border-purple-500 pl-4">
-                    <h4 class="text-purple-400 font-bold">February 2026</h4>
-                    <p class="text-sm text-gray-300 mt-1">Executed major campus drives at LPU, IIT Guwahati, and IIT Ropar.</p>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                    <div>
+                        <h4 class="text-gray-400 text-xs uppercase tracking-wider mb-1">Total Workforce</h4>
+                        <p class="text-3xl font-bold text-white">55</p>
+                        <p class="text-xs text-gray-500">42 Emp / 13 Interns</p>
+                    </div>
+                    <div>
+                        <h4 class="text-gray-400 text-xs uppercase tracking-wider mb-1">Attrition Rate</h4>
+                        <p class="text-3xl font-bold text-pink-400">0%</p>
+                    </div>
+                    <div>
+                        <h4 class="text-gray-400 text-xs uppercase tracking-wider mb-1">New Joiners</h4>
+                        <p class="text-3xl font-bold text-green-400">19</p>
+                    </div>
+                    <div>
+                        <h4 class="text-gray-400 text-xs uppercase tracking-wider mb-1">Payroll Exp.</h4>
+                        <p class="text-xl font-bold text-white mt-2">₹13.7L</p>
+                    </div>
                 </div>
-                <div class="border-l-2 border-pink-500 pl-4">
-                    <h4 class="text-pink-400 font-bold">March 2026</h4>
-                    <p class="text-sm text-gray-300 mt-1">Supported HR coordination for the Sounding Rocket Launch at Dholera.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-black/30 p-4 rounded-lg">
+                        <h4 class="text-white font-bold mb-2">🚀 Major Operation</h4>
+                        <p class="text-sm text-gray-300">Played a vital coordination and administrative support role for the successful <strong>Sounding Rocket Launch at Dholera</strong>.</p>
+                    </div>
+                    <div class="bg-black/30 p-4 rounded-lg">
+                        <h4 class="text-white font-bold mb-2">📊 March Recruitment Funnel</h4>
+                        <canvas id="marchFunnelChart" height="100"></canvas>
+                    </div>
                 </div>
-                <div class="border-l-2 border-cyan-500 pl-4">
-                    <h4 class="text-cyan-400 font-bold">May 2026</h4>
-                    <p class="text-sm text-gray-300 mt-1">Developed TLR (Talent Lifecycle Review) and advanced HRMS implementation[cite: 962, 966].</p>
+            </div>
+        </div>
+
+        <div class="relative pl-0 md:pl-16 mb-4">
+            <div class="timeline-dot bg-teal-400 text-teal-400 hidden md:block mt-6"></div>
+            <div class="glass-card border-t-4 border-teal-400">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 border-b border-white/10 pb-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white">Phase 4: Systems & Compliance</h2>
+                        <p class="text-teal-400 text-sm tracking-widest uppercase mt-1">May 2026</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="col-span-2">
+                        <h4 class="text-gray-400 text-xs uppercase tracking-wider mb-2">Strategic Developments</h4>
+                        <ul class="list-disc pl-5 space-y-2 text-sm text-gray-300">
+                            <li><strong>Tech Integration:</strong> Initiated evaluations and vendor demos for new HRMS platforms.</li>
+                            <li><strong>Compliance:</strong> Coordinated with ISO certification agencies for standardization.</li>
+                            <li><strong>Process Development:</strong> Implemented TLR (Talent Lifecycle Review) frameworks and Open Position trackers.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-teal-900/20 p-4 rounded-lg border border-teal-500/30 flex flex-col justify-center">
+                        <h4 class="text-teal-300 font-bold mb-1">June Look-Ahead</h4>
+                        <p class="text-xs text-gray-400">Finalization of Naukri.com integration, HRMS software selection, and ISO agency lock-in expected by June 2nd.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -113,58 +189,43 @@
     </main>
 
     <script>
-        // Global Chart Defaults for Dark Theme
+        // Chart Config
         Chart.defaults.color = '#94a3b8';
-        Chart.defaults.borderColor = 'rgba(255,255,255,0.1)';
+        Chart.defaults.font.family = 'Inter';
 
-        // Allocation Doughnut Chart (Jan 2026)
-        const ctxAlloc = document.getElementById('allocationChart').getContext('2d');
-        new Chart(ctxAlloc, {
-            type: 'doughnut',
+        // March Recruitment Funnel (Horizontal Bar)
+        const ctxFunnel = document.getElementById('marchFunnelChart').getContext('2d');
+        new Chart(ctxFunnel, {
+            type: 'bar',
             data: {
-                labels: ['Recruitment (45%)', 'HR Ops (25%)', 'Engagement (20%)', 'Coordination (10%)'],
+                labels: ['Screened', 'Interviewed', 'Selected', 'Joined'],
                 datasets: [{
-                    data: [45, 25, 20, 10],
-                    backgroundColor: ['#38bdf8', '#c084fc', '#f472b6', '#2dd4bf'],
-                    borderWidth: 0,
-                    hoverOffset: 4
+                    label: 'Candidates',
+                    data: [1000, 130, 36, 19],
+                    backgroundColor: [
+                        'rgba(56, 189, 248, 0.6)', 
+                        'rgba(192, 132, 252, 0.6)', 
+                        'rgba(244, 114, 182, 0.6)', 
+                        'rgba(45, 212, 191, 0.8)'
+                    ],
+                    borderColor: [
+                        '#38bdf8', '#c084fc', '#f472b6', '#2dd4bf'
+                    ],
+                    borderWidth: 1,
+                    borderRadius: 4
                 }]
             },
             options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'right', labels: { color: '#e2e8f0' } }
-                }
-            }
-        });
-
-        // Recruitment Velocity Bar Chart
-        const ctxVel = document.getElementById('velocityChart').getContext('2d');
-        new Chart(ctxVel, {
-            type: 'line',
-            data: {
-                labels: ['January', 'February'],
-                datasets: [{
-                    label: 'Interviews Conducted',
-                    data: [69, 85],
-                    borderColor: '#38bdf8',
-                    backgroundColor: 'rgba(56, 189, 248, 0.2)',
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0.3,
-                    pointBackgroundColor: '#fff',
-                    pointRadius: 5
-                }]
-            },
-            options: {
+                indexAxis: 'y', // Horizontal bar chart to act like a funnel
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' } },
-                    x: { grid: { display: false } }
+                    x: { display: false },
+                    y: { grid: { display: false }, border: {display: false} }
                 },
-                plugins: { legend: { display: false } }
+                plugins: {
+                    legend: { display: false }
+                }
             }
         });
     </script>
