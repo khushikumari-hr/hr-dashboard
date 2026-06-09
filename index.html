@@ -14,7 +14,6 @@
             background-attachment: fixed;
             color: #e2e8f0;
         }
-        /* Removed the heavy backdrop-filter to prevent browser lag */
         .glass-card { 
             background-color: rgba(16, 24, 39, 0.85); 
             border: 1px solid rgba(255, 255, 255, 0.1); 
@@ -151,7 +150,7 @@
                     </div>
                     <div class="bg-black/30 p-4 rounded-lg">
                         <h4 class="text-white font-bold mb-2 text-sm">March Recruitment Funnel</h4>
-                        <div class="relative w-full h-48">
+                        <div class="relative w-full h-40">
                             <canvas id="marchFunnelChart"></canvas>
                         </div>
                     </div>
@@ -191,12 +190,12 @@
         Chart.defaults.font.family = 'Inter';
 
         // Initialize March Funnel Chart
-        // The container (<div class="relative w-full h-48">) forces the chart to stay this exact size
         const ctxFunnel = document.getElementById('marchFunnelChart').getContext('2d');
         new Chart(ctxFunnel, {
             type: 'bar',
             data: {
-                labels: ['Screened', 'Interviewed', 'Selected', 'Joined'],
+                // Appending the numbers directly to the labels makes it instantly readable for the board
+                labels: ['Screened (1000)', 'Interviewed (130)', 'Selected (36)', 'Joined (19)'],
                 datasets: [{
                     label: 'Candidates',
                     data: [1000, 130, 36, 19],
@@ -210,19 +209,27 @@
                         '#38bdf8', '#c084fc', '#f472b6', '#2dd4bf'
                     ],
                     borderWidth: 1,
-                    borderRadius: 4
+                    borderRadius: 4,
+                    // FIX: This forces the bars to stay a reasonable height, preventing the giant block issue
+                    maxBarThickness: 24 
                 }]
             },
             options: {
                 indexAxis: 'y', // Makes the bar chart horizontal
                 responsive: true,
-                maintainAspectRatio: false, // Allows it to fill the exact dimensions of the h-48 container
+                maintainAspectRatio: false, 
+                layout: {
+                    padding: { right: 20 } // Prevents long labels/bars from touching the edge
+                },
                 scales: {
                     x: { display: false, beginAtZero: true },
                     y: { 
                         grid: { display: false }, 
                         border: { display: false },
-                        ticks: { font: { size: 11 } }
+                        ticks: { 
+                            font: { size: 12, weight: 'bold' },
+                            color: '#e2e8f0'
+                        }
                     }
                 },
                 plugins: {
